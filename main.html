@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplayer Tic Tac Toe</title>
     <style>
-        /* Your CSS here */
-		/*  your css code here. If applicable */
-body {
+        body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: #f4f4f4;
         }
         .container {
             text-align: center;
@@ -34,9 +33,10 @@ body {
             font-size: 2rem;
             border: 1px solid #000;
             cursor: pointer;
+            background-color: #fff;
         }
         .cell:hover {
-            background-color: #f0f0f0;
+            background-color: #e0e0e0;
         }
         .hidden {
             display: none;
@@ -74,7 +74,7 @@ body {
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             const submitButton = document.getElementById('submit');
             const setupDiv = document.getElementById('setup');
             const gameDiv = document.getElementById('game');
