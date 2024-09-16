@@ -1,17 +1,57 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Tic Tac Toe</title>
+    <style>
+        /* Your CSS here */
+		/*  your css code here. If applicable */
+body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+        .cell:hover {
+            background-color: #f0f0f0;
+        }
+        .hidden {
+            display: none;
+        }
+        #submit {
+            margin-top: 10px;
+        }
+        .message {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
-
-	<div class="container">
+    <div class="container">
         <div id="setup">
             <input type="text" id="player-1" placeholder="Player 1 Name">
             <input type="text" id="player-2" placeholder="Player 2 Name">
@@ -33,7 +73,67 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const submitButton = document.getElementById('submit');
+            const setupDiv = document.getElementById('setup');
+            const gameDiv = document.getElementById('game');
+            const messageDiv = document.querySelector('.message');
+            const cells = document.querySelectorAll('.cell');
+            
+            let currentPlayer = 'X';
+            let player1Name = '';
+            let player2Name = '';
+            
+            submitButton.addEventListener('click', () => {
+                player1Name = document.getElementById('player-1').value;
+                player2Name = document.getElementById('player-2').value;
+                
+                if (player1Name && player2Name) {
+                    setupDiv.classList.add('hidden');
+                    gameDiv.classList.remove('hidden');
+                    updateMessage();
+                } else {
+                    alert('Please enter names for both players.');
+                }
+            });
+            
+            cells.forEach(cell => {
+                cell.addEventListener('click', () => {
+                    if (cell.textContent === '' && !checkWinner()) {
+                        cell.textContent = currentPlayer;
+                        if (checkWinner()) {
+                            messageDiv.textContent = `${currentPlayer === 'X' ? player1Name : player2Name} congratulations you won!`;
+                        } else if (Array.from(cells).every(cell => cell.textContent)) {
+                            messageDiv.textContent = "It's a draw!";
+                        } else {
+                            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                            updateMessage();
+                        }
+                    }
+                });
+            });
+            
+            function updateMessage() {
+                messageDiv.textContent = `${currentPlayer === 'X' ? player1Name : player2Name}, you're up`;
+            }
+            
+            function checkWinner() {
+                const winningCombos = [
+                    [1, 2, 3], [4, 5, 6], [7, 8, 9],
+                    [1, 4, 7], [2, 5, 8], [3, 6, 9],
+                    [1, 5, 9], [3, 5, 7]
+                ];
+                
+                return winningCombos.some(combo => {
+                    const [a, b, c] = combo;
+                    const cellA = document.getElementById(a).textContent;
+                    const cellB = document.getElementById(b).textContent;
+                    const cellC = document.getElementById(c).textContent;
+                    return cellA && cellA === cellB && cellB === cellC;
+                });
+            }
+        });
+    </script>
 </body>
-
 </html>
